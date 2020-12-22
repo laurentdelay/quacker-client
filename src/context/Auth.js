@@ -24,13 +24,20 @@ const authReducer = (state, action) => {
         ...state,
         user: null,
       };
+    case "SET_AUTH_ERROR":
+      return {
+        ...state,
+        authErrorMessage: action.payload,
+      };
 
+    case "CLEAR_ERROR":
+      return { ...state, authErrorMessage: "" };
     default:
       break;
   }
 };
 
-const initialState = { user: null };
+const initialState = { user: null, authErrorMessage: "" };
 const token = localStorage.getItem("token");
 if (token) {
   const decodedToken = jwtDecode(token);
@@ -59,7 +66,38 @@ const AuthProvider = ({ children }) => {
     });
   };
 
-  const contextValues = { user: state.user, login, logout };
+  const checkAuth = (errorMessage) => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      const decodedToken = jwtDecode(token);
+
+      if (decodedToken.exp * 1000 > new Date().getTime()) {
+        return true;
+      }
+
+      localStorage.removeItem("token");
+    }
+    dispatch({
+      type: "SET_AUTH_ERROR",
+      payload: errorMessage,
+    });
+
+    return false;
+  };
+
+  const clearError = () => {
+    dispatch({ type: "CLEAR_ERROR" });
+  };
+
+  const contextValues = {
+    user: state.user,
+    authErrorMessage: state.authErrorMessage,
+    login,
+    logout,
+    checkAuth,
+    clearError,
+  };
 
   return (
     <AuthContext.Provider value={contextValues}>

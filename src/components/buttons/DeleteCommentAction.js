@@ -1,10 +1,13 @@
 import { useMutation } from "@apollo/client";
 import React, { useState } from "react";
 import { Comment, Confirm } from "semantic-ui-react";
+import { useAuth } from "../../context/Auth";
+
 import { DELETE_COMMENT } from "../../graphql/mutations";
 
 function DeleteCommentAction({ quackId, commentId }) {
   const [confirmPending, setConfirmPending] = useState(false);
+  const { checkAuth } = useAuth();
 
   const [deleteComment] = useMutation(DELETE_COMMENT, {
     onError(err) {
@@ -13,10 +16,13 @@ function DeleteCommentAction({ quackId, commentId }) {
     variables: { postId: quackId, commentId },
   });
 
-  const handleDeleteClick = (e) => {
-    e.preventDefault();
+  const handleDeleteClick = () => {
+    const errorMessage =
+      "Vous devez être connecté pour supprimer un commentaire.";
 
-    setConfirmPending(true);
+    if (checkAuth(errorMessage)) {
+      setConfirmPending(true);
+    }
   };
 
   const handleCancel = () => {

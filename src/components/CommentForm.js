@@ -15,10 +15,14 @@ function CommentForm({ user: { username }, quackId: postId }) {
     }
   );
 
-  const { userInputs, handleInputChange, handleSubmit } = useForm(commentPost, {
-    postId,
-    body: "",
-  });
+  const { userInputs, handleInputChange, handleSubmit } = useForm(
+    commentPost,
+    {
+      postId,
+      body: "",
+    },
+    "Vous devez être connecté pour commenter"
+  );
   return (
     <Comment>
       <Comment.Avatar src="https://react.semantic-ui.com/images/avatar/large/steve.jpg" />

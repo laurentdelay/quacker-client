@@ -8,6 +8,7 @@ import { FETCH_QUACKS } from "../graphql/queries";
 
 function QuackForm() {
   const [quackingErrors, setQuackingErrors] = useState(null);
+
   const [createQuack, { loading: quackPostLoading }] = useMutation(ADD_QUACK, {
     update(cache, { data: { createPost } }) {
       const { getPosts } = cache.readQuery({ query: FETCH_QUACKS });
@@ -22,9 +23,13 @@ function QuackForm() {
     },
   });
 
-  const { userInputs, handleInputChange, handleSubmit } = useForm(createQuack, {
-    body: "",
-  });
+  const { userInputs, handleInputChange, handleSubmit } = useForm(
+    createQuack,
+    {
+      body: "",
+    },
+    "Vous devez être connecté pour Quacker"
+  );
 
   return (
     <div>

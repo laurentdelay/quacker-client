@@ -37,12 +37,11 @@ function QuackCard({
       </Card.Content>
       <Card.Content extra>
         <LikeButton
-          user={user}
           quackData={{ id, likesCount, likes }}
           likesCount={likesCount}
         />
 
-        <CommentButton quackData={{ id, commentsCount }} user={user} />
+        <CommentButton quackData={{ id, commentsCount }} />
         {username === user?.username && <DeleteButton quackId={id} />}
       </Card.Content>
     </Card>

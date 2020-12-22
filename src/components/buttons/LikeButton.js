@@ -1,11 +1,13 @@
 import { useMutation } from "@apollo/client";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { Button, Icon, Label } from "semantic-ui-react";
+import { useAuth } from "../../context/Auth";
 import { LIKE_QUACK } from "../../graphql/mutations";
+import ErrorAuthModal from "../ErrorAuthModal";
 
-function LikeButton({ user, quackData: { likesCount, likes, id: quackId } }) {
+function LikeButton({ quackData: { likesCount, likes, id: quackId } }) {
   const [likedQuack, setLikedQuack] = useState(false);
+  const { user, checkAuth } = useAuth();
 
   useEffect(() => {
     setLikedQuack(
@@ -20,22 +22,24 @@ function LikeButton({ user, quackData: { likesCount, likes, id: quackId } }) {
     variables: { postId: quackId },
   });
 
-  const likeButton = user ? (
-    <Button basic={!likedQuack} color="teal" onClick={likeQuack}>
-      <Icon name="heart" />
-    </Button>
-  ) : (
-    <Button basic color="teal" as={Link} to="/login">
-      <Icon name="heart" />
-    </Button>
-  );
+  const handleLikeClick = () => {
+    const errorMessage = "Vous devez être connecté pour liker.";
+    if (checkAuth(errorMessage)) {
+      likeQuack();
+    }
+  };
+
   return (
-    <Button as="div" labelPosition="right">
-      {likeButton}
-      <Label basic color="teal" pointing="left">
-        {likesCount}
-      </Label>
-    </Button>
+    <>
+      <Button as="div" labelPosition="right">
+        <Button basic={!likedQuack} color="teal" onClick={handleLikeClick}>
+          <Icon name="heart" />
+        </Button>
+        <Label basic color="teal" pointing="left">
+          {likesCount}
+        </Label>
+      </Button>
+    </>
   );
 }
 

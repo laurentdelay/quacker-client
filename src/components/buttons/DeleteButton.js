@@ -1,12 +1,18 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { Button, Confirm, Icon } from "semantic-ui-react";
 
 import { FETCH_QUACKS } from "../../graphql/queries";
 import { DELETE_QUACK } from "../../graphql/mutations";
+import { useAuth } from "../../context/Auth";
+import ErrorAuthModal from "../ErrorAuthModal";
 
-function DeleteButton({ quackId, history }) {
+function DeleteButton({ quackId }) {
   const [confirmPending, setConfirmPending] = useState(false);
+
+  const { checkAuth } = useAuth();
+
   const [deleteQuack] = useMutation(DELETE_QUACK, {
     update(cache) {
       const { getPosts } = cache.readQuery({ query: FETCH_QUACKS });
@@ -15,27 +21,29 @@ function DeleteButton({ quackId, history }) {
         query: FETCH_QUACKS,
         data: { getPosts: [...filteredPosts] },
       });
-      history?.push("/");
     },
     onError(err) {
-      console.log(err);
+      console.error(err.graphQLErrors[0].message);
     },
     variables: { postId: quackId },
   });
 
+  const handleDeleteClick = () => {
+    const errorText = "Vous devez être connecté pour supprimer un Quack.";
+    if (checkAuth(errorText)) {
+      setConfirmPending(true);
+    }
+  };
+
   return (
     <>
-      <Button
-        color="red"
-        floated="right"
-        icon
-        onClick={() => setConfirmPending(true)}
-      >
+      <Button color="red" floated="right" icon onClick={handleDeleteClick}>
         <Icon name="trash" />
       </Button>
       <Confirm
         open={confirmPending}
-        content={"Supprimer le Quack ? Cette action est irréversible"}
+        size="mini"
+        content={"Supprimer le Quack ?"}
         cancelButton="Annuler"
         confirmButton="Supprimer"
         onCancel={() => setConfirmPending(false)}

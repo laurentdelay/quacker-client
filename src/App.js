@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import "semantic-ui-css/semantic.min.css";
 import { Container } from "semantic-ui-react";
 import "./App.css";
+import ErrorAuthModal from "./components/ErrorAuthModal";
 import MenuBar from "./components/MenuBar";
 import Home from "./components/pages/Home";
 import Login from "./components/pages/Login";
@@ -21,6 +22,7 @@ function App() {
           <AuthRoute exact path="/login" component={Login} />
           <AuthRoute exact path="/register" component={Register} />
           <Route exact path="/quack/:quackId" component={SingleQuack} />
+          <ErrorAuthModal />
         </AuthProvider>
       </Container>
     </Router>
