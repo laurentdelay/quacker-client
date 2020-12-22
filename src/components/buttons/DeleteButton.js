@@ -5,6 +5,7 @@ import { Button, Confirm, Icon } from "semantic-ui-react";
 import { FETCH_QUACKS } from "../../graphql/queries";
 import { DELETE_QUACK } from "../../graphql/mutations";
 import { useAuth } from "../../context/Auth";
+import InfoPopup from "../InfoPopup";
 
 function DeleteButton({ quackId }) {
   const [confirmPending, setConfirmPending] = useState(false);
@@ -35,9 +36,11 @@ function DeleteButton({ quackId }) {
 
   return (
     <>
-      <Button color="red" floated="right" icon onClick={handleDeleteClick}>
-        <Icon name="trash" />
-      </Button>
+      <InfoPopup content="Supprimer le Quack">
+        <Button color="red" floated="right" icon onClick={handleDeleteClick}>
+          <Icon name="trash" />
+        </Button>
+      </InfoPopup>
       <Confirm
         open={confirmPending}
         size="mini"

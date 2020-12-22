@@ -1,8 +1,10 @@
 import { useMutation } from "@apollo/client";
 import React, { useEffect, useState } from "react";
 import { Button, Icon, Label } from "semantic-ui-react";
+
 import { useAuth } from "../../context/Auth";
 import { LIKE_QUACK } from "../../graphql/mutations";
+import InfoPopup from "../InfoPopup";
 
 function LikeButton({ quackData: { likesCount, likes, id: quackId } }) {
   const [likedQuack, setLikedQuack] = useState(false);
@@ -31,9 +33,11 @@ function LikeButton({ quackData: { likesCount, likes, id: quackId } }) {
   return (
     <>
       <Button as="div" labelPosition="right">
-        <Button basic={!likedQuack} color="teal" onClick={handleLikeClick}>
-          <Icon name="heart" />
-        </Button>
+        <InfoPopup content="Like">
+          <Button basic={!likedQuack} color="teal" onClick={handleLikeClick}>
+            <Icon name="heart" />
+          </Button>
+        </InfoPopup>
         <Label basic color="teal" pointing="left">
           {likesCount}
         </Label>

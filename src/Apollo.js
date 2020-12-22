@@ -9,9 +9,12 @@ import { setContext } from "@apollo/client/link/context";
 
 import App from "./App";
 
+const SERVER_URI = process.env.REACT_APP_SERVER_URI;
+console.log(SERVER_URI);
+
 export default function Apollo() {
   const httpLink = createHttpLink({
-    uri: "http://localhost:5000",
+    uri: SERVER_URI,
   });
 
   const authLink = setContext((_, { headers }) => {

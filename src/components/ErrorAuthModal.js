@@ -6,7 +6,7 @@ import { useAuth } from "../context/Auth";
 function ErrorAuthModal() {
   const history = useHistory();
 
-  const { authErrorMessage, logout, clearError } = useAuth();
+  const { authErrorMessage, clearError } = useAuth();
 
   const handleConnectClick = () => {
     clearError();
