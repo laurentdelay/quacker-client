@@ -1,7 +1,7 @@
 import { useQuery } from "@apollo/client";
 import React from "react";
 import { useParams } from "react-router-dom";
-import { Card, Container, Grid, Image, Message } from "semantic-ui-react";
+import { Card, Grid, Image, Message } from "semantic-ui-react";
 import { useAuth } from "../../context/Auth";
 
 import { FETCH_SINGLE_QUACK } from "../../graphql/queries";

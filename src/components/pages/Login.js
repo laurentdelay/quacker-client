@@ -5,14 +5,21 @@ import { Button, Form, Header, List, Message } from "semantic-ui-react";
 import { useForm } from "../../utils/hooks";
 import { useAuth } from "../../context/Auth";
 import { LOGIN } from "../../graphql/mutations";
+import { useLocation } from "react-router-dom";
+import { getRedirectionPath } from "../../utils/functions";
 
 function Login({ history }) {
   const [loginErrors, setLoginErrors] = useState(null);
   const { login } = useAuth();
+
+  // récupération des informations de redirection
+  const redirectParams = new URLSearchParams(useLocation().search);
+  const redirectPath = getRedirectionPath(redirectParams);
+
   const [logUser, { loading: loginLoading }] = useMutation(LOGIN, {
     update(_, { data: { login: userData } }) {
       login(userData);
-      history.push("/");
+      history.push(redirectPath);
     },
     onError(err) {
       console.log(err.graphQLErrors[0].extensions.errors);

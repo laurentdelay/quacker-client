@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { Button, Icon, Label } from "semantic-ui-react";
 import { useAuth } from "../../context/Auth";
 import { LIKE_QUACK } from "../../graphql/mutations";
-import ErrorAuthModal from "../ErrorAuthModal";
 
 function LikeButton({ quackData: { likesCount, likes, id: quackId } }) {
   const [likedQuack, setLikedQuack] = useState(false);

@@ -1,12 +1,10 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { Button, Confirm, Icon } from "semantic-ui-react";
 
 import { FETCH_QUACKS } from "../../graphql/queries";
 import { DELETE_QUACK } from "../../graphql/mutations";
 import { useAuth } from "../../context/Auth";
-import ErrorAuthModal from "../ErrorAuthModal";
 
 function DeleteButton({ quackId }) {
   const [confirmPending, setConfirmPending] = useState(false);

@@ -61,6 +61,7 @@ const AuthProvider = ({ children }) => {
 
   const logout = () => {
     localStorage.removeItem("token");
+    sessionStorage.clear();
     dispatch({
       type: "LOGOUT",
     });
@@ -88,6 +89,7 @@ const AuthProvider = ({ children }) => {
 
   const clearError = () => {
     dispatch({ type: "CLEAR_ERROR" });
+    dispatch({ type: "LOGOUT" });
   };
 
   const contextValues = {

@@ -7,4 +7,13 @@ const elapsedTime = (date) =>
     locale: fr,
   });
 
-export { elapsedTime };
+const getRedirectionPath = (params) => {
+  let path = "";
+  for (let value of params.values()) {
+    path += `/${value}`;
+  }
+
+  return path;
+};
+
+export { elapsedTime, getRedirectionPath };

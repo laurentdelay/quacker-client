@@ -28,7 +28,8 @@ function QuackForm() {
     {
       body: "",
     },
-    "Vous devez être connecté pour Quacker"
+    "Vous devez être connecté pour Quacker",
+    "quackBody"
   );
 
   return (

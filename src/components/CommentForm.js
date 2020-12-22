@@ -21,7 +21,8 @@ function CommentForm({ user: { username }, quackId: postId }) {
       postId,
       body: "",
     },
-    "Vous devez être connecté pour commenter"
+    "Vous devez être connecté pour commenter",
+    "commentBody"
   );
   return (
     <Comment>
@@ -30,7 +31,7 @@ function CommentForm({ user: { username }, quackId: postId }) {
         <Comment.Author as="a">{username}</Comment.Author>
 
         <Comment.Text>
-          <Form loding={commentLoading} onSubmit={handleSubmit}>
+          <Form loading={commentLoading} onSubmit={handleSubmit}>
             <Form.TextArea
               name="body"
               value={userInputs.body}

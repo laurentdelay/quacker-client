@@ -1,12 +1,34 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../context/Auth";
 
-export const useForm = (callback, initialState = {}, errorMessage = "") => {
+export const useForm = (
+  callback,
+  initialState = {},
+  errorMessage = "",
+  itemName
+) => {
   const [userInputs, setUserInputs] = useState(initialState);
 
   const { checkAuth } = useAuth();
 
+  useEffect(() => {
+    if (itemName) {
+      console.log(itemName);
+      setUserInputs((userInputs) => {
+        const savedBody = sessionStorage.getItem(itemName) || "";
+        if (!savedBody) {
+          console.log("clearing storage");
+          sessionStorage.clear();
+        }
+        return { ...userInputs, body: savedBody };
+      });
+    }
+  }, [itemName]);
+
   const handleInputChange = (e, { name }) => {
+    if (itemName) {
+      sessionStorage.setItem(itemName, e.target.value);
+    }
     setUserInputs((userInputs) => {
       return { ...userInputs, [name]: e.target.value };
     });
@@ -19,6 +41,11 @@ export const useForm = (callback, initialState = {}, errorMessage = "") => {
 
     try {
       await callback({ variables: userInputs });
+      setUserInputs(initialState);
+      if (itemName) {
+        console.log(itemName);
+        sessionStorage.removeItem(itemName);
+      }
     } catch {}
   };
 

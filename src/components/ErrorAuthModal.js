@@ -5,18 +5,27 @@ import { useAuth } from "../context/Auth";
 
 function ErrorAuthModal() {
   const history = useHistory();
+
   const { authErrorMessage, logout, clearError } = useAuth();
 
   const handleConnectClick = () => {
     clearError();
 
-    logout();
-    history.push("/login");
-  };
+    const path = history.location.pathname;
+    let redirect = "/login";
 
-  const handleClose = () => {
-    clearError();
-    logout();
+    if (path !== "/") {
+      const redirectInfo = path.split("/");
+
+      // ajout de la page actuelle pour la redirection
+      redirect += `?previousPage=${redirectInfo[1]}`;
+
+      // si une ID est fournie, on l'ajoute
+      if (redirectInfo.length > 2) {
+        redirect += `&id=${redirectInfo[2]}`;
+      }
+    }
+    history.push(redirect);
   };
 
   return (
@@ -25,8 +34,8 @@ function ErrorAuthModal() {
       closeOnDimmerClick={true}
       closeOnEscape={true}
       open={authErrorMessage ? true : false}
-      size="mini"
-      onClose={handleClose}
+      size="tiny"
+      onClose={clearError}
     >
       <Modal.Content>{authErrorMessage}</Modal.Content>
       <Modal.Actions>
