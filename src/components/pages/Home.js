@@ -17,7 +17,7 @@ function Home() {
   let content = null;
 
   if (loading) {
-    content = <LoadingDimmer>Chargement des quacks...</LoadingDimmer>;
+    content = <LoadingDimmer active>Chargement des quacks...</LoadingDimmer>;
   } else if (error) {
     content = (
       <Grid.Row columns={1} centered only>
