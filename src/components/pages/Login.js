@@ -22,8 +22,11 @@ function Login({ history }) {
       history.push(redirectPath);
     },
     onError(err) {
-      console.log(err.graphQLErrors[0].extensions.errors);
-      setLoginErrors(err.graphQLErrors[0].extensions.errors);
+      if (err.graphQLErrors[0].extensions.errors) {
+        setLoginErrors(err.graphQLErrors[0].extensions.errors);
+      } else {
+        console.error(err);
+      }
     },
   });
 

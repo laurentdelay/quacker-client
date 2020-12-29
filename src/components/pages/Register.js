@@ -16,7 +16,11 @@ function Register({ history }) {
       history.push("/");
     },
     onError(err) {
-      setRegisterErrors(err.graphQLErrors[0].extensions.errors);
+      if (err.graphQLErrors[0].extensions.errors) {
+        setRegisterErrors(err.graphQLErrors[0].extensions.errors);
+      } else {
+        console.error(err);
+      }
     },
   });
 
