@@ -42,7 +42,10 @@ function QuackForm() {
           placeholder="Hello there!"
           onChange={handleInputChange}
           value={userInputs.body}
+          className="quack-input"
+          autoComplete="off"
         />
+        <p className="char-count">{userInputs.body.length} sur 256</p>
         <Button type="submit" color="teal" fluid>
           Quack!
         </Button>

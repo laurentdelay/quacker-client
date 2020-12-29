@@ -13,7 +13,6 @@ export const useForm = (
 
   useEffect(() => {
     if (itemName) {
-      console.log(itemName);
       setUserInputs((userInputs) => {
         const savedBody = sessionStorage.getItem(itemName) || "";
         if (!savedBody) {
@@ -28,6 +27,9 @@ export const useForm = (
   const handleInputChange = (e, { name }) => {
     if (itemName) {
       sessionStorage.setItem(itemName, e.target.value);
+    }
+    if (itemName === "quackBody" && e.target.value.length > 256) {
+      return;
     }
     setUserInputs((userInputs) => {
       return { ...userInputs, [name]: e.target.value };

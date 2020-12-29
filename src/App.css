@@ -14,3 +14,13 @@
 .home-card {
   margin-bottom: 20px !important;
 }
+.quack-input {
+  margin-bottom: 0 !important;
+}
+.char-count {
+  font-size: 0.7rem;
+  margin: 0 0 0.5rem !important;
+  margin-bottom: 0.5rem;
+  padding: 0;
+  text-align: right;
+}
